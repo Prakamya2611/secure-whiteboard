@@ -3,11 +3,19 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-change-this'
+# ========================
+# SECURITY
+# ========================
+
+SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key")
+
 DEBUG = False
+
 ALLOWED_HOSTS = ["*"]
 
-
+# ========================
+# APPLICATIONS
+# ========================
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -21,10 +29,15 @@ INSTALLED_APPS = [
     'whiteboard',
 ]
 
+# ========================
+# MIDDLEWARE
+# ========================
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -32,9 +45,19 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 CORS_ALLOW_ALL_ORIGINS = True
 
+# ========================
+# URLS
+# ========================
+
 ROOT_URLCONF = 'backend.urls'
+WSGI_APPLICATION = 'backend.wsgi.application'
+
+# ========================
+# TEMPLATES
+# ========================
 
 TEMPLATES = [
     {
@@ -51,6 +74,10 @@ TEMPLATES = [
     },
 ]
 
+# ========================
+# DATABASE
+# ========================
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -58,10 +85,18 @@ DATABASES = {
     }
 }
 
+# ========================
+# INTERNATIONALIZATION
+# ========================
+
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
+
+# ========================
+# STATIC FILES
+# ========================
 
 STATIC_URL = '/static/'
 
@@ -71,3 +106,4 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
